@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MJ Savory Spice | Online Food Ordering</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #101419;
+    color: white;
+}
+
+header {
+    background: #080b0f;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #303943;
+}
+
+header h1 {
+    margin: 0;
+    color: #ffb52e;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+.hero {
+    padding: 45px 5%;
+    background: linear-gradient(90deg, #17100b, #352013);
+}
+
+.hero h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #ddd;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    padding: 30px 5%;
+    align-items: start;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.product {
+    background: #171e25;
+    border: 1px solid #36414d;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.product img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain; 
+    display: block;
+    background: #0a0d12;
+    padding: 10px;
+}
+
+.product-info {
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.product h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.price {
+    color: #ffb52e;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.add-btn, .checkout-btn {
+    background: #ffb52e;
+    color: #151515;
+}
+
+.add-btn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    background: #0e1318;
+    border: 1px solid #36414d;
+    padding: 5px;
+    border-radius: 7px;
+}
+
+.quantity button {
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    padding: 3px 8px;
+}
+
+.cart {
+    background: #141a20;
+    border: 1px solid #36414d;
+    padding: 20px;
+    border-radius: 10px;
+    position: sticky;
+    top: 15px;
+}
+
+.cart h2 {
+    margin-top: 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid #303943;
+}
+
+.cart-item p {
+    margin: 5px 0;
+    color: #ffb52e;
+}
+
+.cart-item button {
+    background: #303943;
+    color: white;
+}
+
+.remove-btn {
+    background: #772e2e !important;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 19px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+label {
+    display: block;
+    margin: 14px 0 7px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 7px;
+    border: 1px solid #36414d;
+    background: #202832;
+    color: white;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.checkout-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    font-size: 15px;
+}
+
+.empty {
+    color: #aeb7c2;
+    text-align: center;
+    padding: 20px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #aeb7c2;
+}
+
+@media (max-width: 1000px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    .cart {
+        position: static;
+    }
+}
+
+@media (max-width: 650px) {
+    .menu {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .hero h2 {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 400px) {
+    .menu {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🔥 MJ Savory Spice</h1>
+    <a href="#cart">🛒 Cart (<span id="cart-count">0</span>)</a>
+</header>
+
+<section class="hero">
+    <h2>Real Flavor. Everyday.</h2>
+    <p>Authentic Filipino Flavors. Premium Ingredients. Made with Love.</p>
+</section>
+
+<main class="container">
+
+    <section>
+        <h2>House Specialties</h2>
+        <div class="menu" id="menu"></div>
+    </section>
+
+    <aside class="cart" id="cart">
+        <h2>🛒 Your Cart</h2>
+
+        <form id="order-form" method="POST" action="https://script.google.com/macros/s/AKfycbzEW7qa2F-2BNdNpYB-nXXMRmxMg6bNXdNdus55xz8vVdCwDUTj67uDtKvtz6kUm59G/exec" target="_hiddeniframe">
+            <div id="cart-items">
+                <p class="empty">Your cart is empty.</p>
+            </div>
+
+            <div class="total">
+                <span>Total</span>
+                <span id="total-display">0 DHS</span>
+            </div>
+
+            <input type="hidden" name="items" id="input-items">
+            <input type="hidden" name="total" id="input-total">
+
+            <h3>Customer Information</h3>
+
+            <label for="customer-name">Full Name *</label>
+            <input id="customer-name" name="name" type="text" placeholder="Enter your name" required>
+
+            <label for="phone">Contact Number *</label>
+            <input id="phone" name="phone" type="tel" placeholder="Enter your phone number" required>
+
+            <label for="address">Delivery Address</label>
+            <input id="address" name="address" type="text" placeholder="Enter address or pickup details">
+
+            <label for="notes">Order Notes</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Any special requests?"></textarea>
+
+            <button class="checkout-btn" type="submit">
+                Submit Order to Google Sheets
+            </button>
+        </form>
+    </aside>
+
+</main>
+
+<iframe name="_hiddeniframe" style="display:none;" onload="handleFormSubmission()"></iframe>
+
+<footer>
+    <p>MJ Savory Spice © 2026 | Real Flavor. Everyday.</p>
+</footer>
+
+<script>
+const products = [
+    { id: 1, name: "Chicken Pastel", price: 25, image: "835355633_923948753881947_4730589099578380729_n.jpg" },
+    { id: 2, name: "Chili Garlic Salmon", price: 25, image: "836725200_29182987737954143_8177867063799645046_n.jpg" },
+    { id: 3, name: "Chili Garlic Oil", price: 20, image: "837039118_3261367744053232_3084618887891752356_n.jpg" },
+    { id: 4, name: "Relyenong Bangus", price: 25, image: "839095024_1798837481425769_7321623197886958017_n.jpg" },
+    { id: 5, name: "Mariakyat Sukang Pinakurat", price: 18, image: "838964923_1393084199658071_3023398594888283131_n.jpg" }
+];
+
+let cart = {};
+let isSubmitting = false;
+
+function money(amount) {
+    return amount + " DHS";
+}
+
+function showMenu() {
+    const menu = document.getElementById("menu");
+    menu.innerHTML = products.map(product => `
+        <article class="product">
+            <img src="${product.image}" alt="${product.name}" loading="lazy">
+            <div class="product-info">
+                <h3>${product.name}</h3>
+                <div class="price">${money(product.price)}</div>
+                <div class="quantity">
+                    <button type="button" onclick="changeQuantity(${product.id}, -1)">−</button>
+                    <span id="qty-${product.id}">1</span>
+                    <button type="button" onclick="changeQuantity(${product.id}, 1)">+</button>
+                </div>
+                <button class="add-btn" type="button" onclick="addToCart(${product.id})">Add to Cart</button>
+            </div>
+        </article>
+    `).join("");
+}
